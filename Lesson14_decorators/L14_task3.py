@@ -23,7 +23,7 @@ def arg_rules(type_: type, max_length: int, contains: list):
                     break
                 if len(str(arg)) > max_length:  # check lenght
                     args_valid = False
-                    print(f'Argument {arg} is too long. Must be less than {max_length}.')
+                    print(f'Argument {arg} is too long. Must be less than {max_length}')
                 for item in contains: # check prohibited symbols
                     if item not in str(arg):
                         args_valid = False
