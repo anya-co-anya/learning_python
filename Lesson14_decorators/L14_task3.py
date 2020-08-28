@@ -28,6 +28,8 @@ def arg_rules(type_: type, max_length: int, contains: list):
                     if item not in str(arg):
                         args_valid = False
                         print(f'Argument {arg} doesn`t contain required symbol {item}')
+                        
+
 
             if args_valid:
                 return func(*args)
