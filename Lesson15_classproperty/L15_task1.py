@@ -10,18 +10,15 @@ class User:
             self.email = ''
             print('Invalid email')
 
-    @classmethod
-    def validate_email(cls, email: str):
+    @classmethod # я думаю тут лучше подходит статикметод но в задании написано класс так что ок
+    def validate_email(cls, email: str) -> bool:
         email = email.lower()
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-        if re.search(regex, email):
-            return True
-        else:
-            return False
+        return re.search(regex, email)  # сразу возвращай булеан значение.
 
 
 if __name__ == '__main__':
-    while 1:
+    while True: # так привычнее
         input_email = input('Enter your email: ')
         if input_email in ('q', 'Q'):
             break
