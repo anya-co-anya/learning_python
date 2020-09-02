@@ -1,4 +1,4 @@
-from typing import Union, Optional
+from typing import Union
 
 
 # task 1
@@ -41,15 +41,7 @@ def reverse(input_str: str) -> str:
         return input_str[-1] + reverse(input_str[:-1])
 
 
-# task 5
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
     print(to_power(0, 3))
     print(is_palindrome('sassas'))
     print(mult(90, 1))
