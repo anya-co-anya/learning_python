@@ -8,48 +8,56 @@ You're not allowed to add instances of Boss class to workers list directly via a
 
 
 class Boss:
-    id_list = []
+    id_list = []  # not only Boss ids, but is used by other classes
 
-    def __init__(self, id_: int, name: str, company: str):
-        if Boss.validate_id(id_, Boss.id_list):
-            self.id = id_
-            Boss.id_list.append(id_)
+    def __new__(cls, id_: int, name: str, company: str):
+        if Boss.validate_id(id_):
+            return super().__new__(cls)
         else:
             raise ValueError('id exists')
+
+
+    def __init__(self, id_: int, name: str, company: str):
+        self.id = id_
+        Boss.id_list.append(id_)
         self.name = name
         self.company = company
-        self.workers = []
-
+        self.__workers = []
 
     @staticmethod
-    def validate_id(value, all_ids):
-        '''check if new id doesn`t already exist'''
-        if value in all_ids:
+    def validate_id(value):  # created to be used in other classes
+        '''check if new id doesn`t already exist in specified list'''
+        if value in Boss.id_list:
             return False
         else:
             return True
 
     def add_worker(self, worker):
-        self.workers.append({'id': worker.id, 'name': worker.name, 'company': worker.company})
+        if isinstance(worker, Worker):
+            self.__workers.append({'id': worker.id, 'name': worker.name, 'company': worker.company})
 
     def remove_worker(self, worker):
-        for i in range(len(self.workers)):
-            if self.workers[i].get('id') == worker.id:
-                self.workers.pop(i)
+        for i in range(len(self.__workers)):
+            if self.__workers[i].get('id') == worker.id:
+                self.__workers.pop(i)
                 break
 
+    @property
+    def workers(self):
+        return self.__workers
 
 
 
 class Worker:
-    id_list = []
-
-    def __init__(self, id_: int, name: str, company: str, boss: Boss):
-        if Boss.validate_id(id_, Worker.id_list):
-            self.id = id_
-            Worker.id_list.append(id_)
+    def __new__(cls, id_: int, name: str, company: str, boss: Boss):
+        if Boss.validate_id(id_):
+            return super().__new__(cls)
         else:
             raise ValueError('id exists')
+
+    def __init__(self, id_: int, name: str, company: str, boss: Boss):
+        self.id = id_
+        Boss.id_list.append(id_)
         self.name = name
         self.company = company
         if isinstance(boss, Boss):
@@ -73,11 +81,12 @@ if __name__ == '__main__':
     masha = Boss(3429, 'Masha', 'PT')
     olga = Worker(3452, 'Olga', 'Samsung', maks)
 
-    print(maks.workers)
+    print(f'Maks`s workers: {maks.workers}')
+    print('Moving Olga to Masha')
     olga.boss = masha
 
-    print(f'Maks: {maks.workers}')
-    print(f'Masha: {masha.workers}')
+    print(f'Maks`s workers: {maks.workers}')
+    print(f'Masha`s workers: {masha.workers}')
 
 
 
