@@ -9,7 +9,7 @@ You're not allowed to add instances of Boss class to workers list directly via a
 
 class Boss:
     id_list = []
-
+    # https://www.code-learner.com/how-to-use-python-__new__-method-example/  почитай пожалуйста и переделай под метод нью он тут более лучше подходит.
     def __init__(self, id_: int, name: str, company: str):
         if Boss.validate_id(id_, Boss.id_list):
             self.id = id_
@@ -18,24 +18,24 @@ class Boss:
             raise ValueError('id exists')
         self.name = name
         self.company = company
-        self.workers = []
+        self.__workers = []   # лучше делать приватным чтоб достучаться можно было только через определенные тобой методы
 
 
     @staticmethod
-    def validate_id(value, all_ids):
+    def validate_id(value):
         '''check if new id doesn`t already exist'''
-        if value in all_ids:
-            return False
-        else:
-            return True
+        return value in Boss.id_list
 
-    def add_worker(self, worker):
-        self.workers.append({'id': worker.id, 'name': worker.name, 'company': worker.company})
+    def add_worker(self, worker):  # странно я ожидал что работник будет экземпляром класса. Кстати проверка при добавлении работника нужна еще.
+        self.__workers.append({'id': worker.id, 'name': worker.name, 'company': worker.company})
 
     def remove_worker(self, worker):
-        for i in range(len(self.workers)):
-            if self.workers[i].get('id') == worker.id:
-                self.workers.pop(i)
+        # если бы у тебя хранился лист обьектов и у воркера был метод __eq__ то мжоно было бы так написать
+        #if worker in self.__workers:
+         #   self.__workers.pop(self.__workers.index(worker))
+        for i in range(len(self.__workers)):
+            if self.__workers[i].get('id') == worker.id:
+                self.__workers.pop(i)
                 break
 
 
