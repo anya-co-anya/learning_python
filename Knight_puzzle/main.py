@@ -17,18 +17,13 @@ class Board:
 
     @classmethod
     def get_coords_by_name(cls, name: str) -> tuple:  # turn chess position to prg. coords (x, y)
-        a = None
-        b = None
         for line in Board.BOARD:
             for i in line:
                 if name == i:
-                    a = line
-                    b = i
-                    break
-        if a and b:
-            return (Board.BOARD.index(a), a.index(b))
-        else:
-            raise ValueError('Ivalid input')
+                    return (Board.BOARD.index(line), line.index(i))
+        raise ValueError('Ivalid input')
+
+
 
     @classmethod
     def get_name_by_coords(self, coords: tuple) -> str:  # turn prg. coords to chess position
