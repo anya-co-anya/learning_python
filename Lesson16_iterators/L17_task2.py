@@ -5,12 +5,15 @@ which takes three parameters: `start`, `end`, and optional step.
 import itertools
 
 def in_range(start, end, step=1):
-    for i in itertools.count(start, step):
-        if i >= end:
-            break
-        yield i
+    if step == 0:
+        raise ValueError('in_range() arg 3 must not be zero')
+
+    current = start
+    while (current >= end and step < 0) or (current <= end and step > 0):
+            yield current
+            current += step
 
 
 if __name__ == '__main__':
-    for i in in_range(0, 10):
+    for i in in_range(-20, 22, 10):
         print(i)

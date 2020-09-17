@@ -4,15 +4,17 @@ which takes two parameters: `iterable` and `start`, default is 0.
 '''
 
 def with_index(iterable='', start=0):
-    counting_list = [i for i in range(start, start+len(iterable))]
-    zip(counting_list, iterable)
-    return zip(counting_list, iterable)
+    for i in iterable:
+        yield start, i
+        start += 1
+
 
 
 if __name__ == '__main__':
     my_str = 'Hey'
+    cars = ['kia', 'audi', 'bmw']
     
-    print(list(with_index(my_str)))
+    print(list(with_index(cars, -10)))
 
-    for i, e in with_index(my_str, 56):
+    for i, e in with_index(my_str, 50):
         print(f'{i}: {e}')
